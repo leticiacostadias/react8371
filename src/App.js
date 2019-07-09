@@ -10,57 +10,98 @@ class App extends Component {
   // constructor (props) {
   //   super(props);
 
-  //   this.state = {
-  //     novoTweet: ''
-  //   };
+    // this.state = {
+    //   novoTweet: ''
+    // };
+
+    // this.handleSubmit = this.handleSubmit.bind(this);
   // }
 
   state = {
-    novoTweet: ''
+    novoTweet: '',
+    tweets: []
+  }
+
+  // handleSubmit(evento) {
+  handleSubmit = (evento) => {
+    evento.preventDefault();
+
+    // console.log(this);
+
+    const { novoTweet, tweets } = this.state;
+
+    // console.log(novoTweet);
+    // tweets.push(novoTweet); // não funfa :(
+
+    this.setState({
+      tweets: [novoTweet, ...tweets], // ES6 -> spread operator
+      novoTweet: ''
+    });
+  }
+
+  novoTweetValido = () => {
+    return this.state.novoTweet.length > 140 || this.state.novoTweet.length === 0;
   }
 
   render() {
+    const { novoTweet, tweets } = this.state;
+
     return (
       <Fragment>
         <Cabecalho>
-            <NavMenu usuario="@omariosouto" />
+          <NavMenu usuario="@felizbol" />
         </Cabecalho>
         <div className="container">
-            <Dashboard>
-                <Widget>
-                    <form className="novoTweet">
-                        <div className="novoTweet__editorArea">
-                            <span className="novoTweet__status">0/140</span>
-                            <textarea
-                                className="novoTweet__editor"
-                                placeholder="O que está acontecendo?"
-                                value={this.state.novoTweet}
-                                onChange={(evento) => this.setState({
-                                  novoTweet: evento.target.value
-                                })}
-                            />
-                        </div>
-                        <button type="submit" className="novoTweet__envia">Tweetar</button>
-                    </form>
-                </Widget>
-                <Widget>
-                    <TrendsArea itens={['lol', 'cs', 'biscoitos']} />
-                </Widget>
-            </Dashboard>
-            <Dashboard posicao="centro">
-                <Widget>
-                    <div className="tweetsArea">
-                        <Tweet
-                            avatarUrl="https://bit.ly/2xF8hAM"
-                            usuario="Felizberto Bolinhos"
-                            username="felizbol"
-                        >
-                            Hoje tem rolê com o Pumba! <br />
-                            <a href="/">#timao</a> <a href="/">#pumba</a>
-                        </Tweet>
-                    </div>
-                </Widget>
-            </Dashboard>
+          <Dashboard>
+            <Widget>
+              <form
+                className="novoTweet"
+                onSubmit={this.handleSubmit}
+              >
+                <div className="novoTweet__editorArea">
+                  <span
+                    className={`novoTweet__status ${this.novoTweetValido() ? 'novoTweet__status--invalido' : ''}`}
+                  >
+                    {novoTweet.length}/140
+                  </span>
+                  <textarea
+                    className="novoTweet__editor"
+                    placeholder="O que está acontecendo?"
+                    value={novoTweet}
+                    onChange={(evento) => this.setState({
+                      novoTweet: evento.target.value
+                    })}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={this.novoTweetValido()}
+                  className="novoTweet__envia"
+                >
+                  Tweetar
+                </button>
+              </form>
+            </Widget>
+            <Widget>
+              <TrendsArea itens={['lol', 'cs', 'biscoitos']} />
+            </Widget>
+          </Dashboard>
+          <Dashboard posicao="centro">
+            <Widget>
+              <div className="tweetsArea">
+                {tweets.map((tweet, index) => (
+                  <Tweet
+                    key={index}
+                    avatarUrl="https://bit.ly/2xF8hAM"
+                    usuario="Felizberto Bolinhos"
+                    username="felizbol"
+                  >
+                    {tweet}
+                  </Tweet>
+                ))}
+              </div>
+            </Widget>
+          </Dashboard>
         </div>
       </Fragment>
     );
