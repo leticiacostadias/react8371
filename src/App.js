@@ -89,6 +89,15 @@ class App extends Component {
           <Dashboard posicao="centro">
             <Widget>
               <div className="tweetsArea">
+                {tweets.length === 0 && (
+                  <>
+                    <span>
+                      Twite alguma coisa! Vamos arranjar treta!
+                    </span>
+                  </>
+                ) /* truthy */
+                }
+                {/* {tweets.length === 0 ? 'Twite alguma coisa! Vamos arranjar treta!' : ''} */}
                 {tweets.map((tweet, index) => (
                   <Tweet
                     key={index}
