@@ -7,8 +7,8 @@ class TrendsArea extends Component {
             <div className="trendsArea">
                 <h2 className="trendsArea__titulo widget__titulo">Trends Brasil</h2>
                 <ol className="trendsArea__lista">
-                    {this.props.itens.map((itemDaLista) => (
-                        <li>
+                    {this.props.itens.map((itemDaLista, indice) => (
+                        <li key={indice}>
                             <a href="/">#{itemDaLista}</a>
                         </li>
                     ))}

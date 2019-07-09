@@ -7,6 +7,18 @@ import TrendsArea from './components/TrendsArea'
 import Tweet from './components/Tweet'
 
 class App extends Component {
+  // constructor (props) {
+  //   super(props);
+
+  //   this.state = {
+  //     novoTweet: ''
+  //   };
+  // }
+
+  state = {
+    novoTweet: ''
+  }
+
   render() {
     return (
       <Fragment>
@@ -19,7 +31,14 @@ class App extends Component {
                     <form className="novoTweet">
                         <div className="novoTweet__editorArea">
                             <span className="novoTweet__status">0/140</span>
-                            <textarea className="novoTweet__editor" placeholder="O que está acontecendo?"></textarea>
+                            <textarea
+                                className="novoTweet__editor"
+                                placeholder="O que está acontecendo?"
+                                value={this.state.novoTweet}
+                                onChange={(evento) => this.setState({
+                                  novoTweet: evento.target.value
+                                })}
+                            />
                         </div>
                         <button type="submit" className="novoTweet__envia">Tweetar</button>
                     </form>
@@ -31,7 +50,14 @@ class App extends Component {
             <Dashboard posicao="centro">
                 <Widget>
                     <div className="tweetsArea">
-                        <Tweet />
+                        <Tweet
+                            avatarUrl="https://bit.ly/2xF8hAM"
+                            usuario="Felizberto Bolinhos"
+                            username="felizbol"
+                        >
+                            Hoje tem rolê com o Pumba! <br />
+                            <a href="/">#timao</a> <a href="/">#pumba</a>
+                        </Tweet>
                     </div>
                 </Widget>
             </Dashboard>
