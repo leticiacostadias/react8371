@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import Cabecalho from './components/Cabecalho'
-import NavMenu from './components/NavMenu'
-import Dashboard from './components/Dashboard'
-import Widget from './components/Widget'
-import TrendsArea from './components/TrendsArea'
-import Tweet from './components/Tweet'
+import Cabecalho from './../components/Cabecalho'
+import NavMenu from './../components/NavMenu'
+import Dashboard from './../components/Dashboard'
+import Widget from './../components/Widget'
+import TrendsArea from './../components/TrendsArea'
+import Tweet from './../components/Tweet'
 
 class App extends Component {
   // constructor (props) {
@@ -92,12 +92,12 @@ class App extends Component {
                 {tweets.length === 0 && (
                   <>
                     <span>
-                      Twite alguma coisa! Vamos arranjar treta!
+                      Twite alguma coisa! Vamos falar com pessoas!
                     </span>
                   </>
                 ) /* truthy */
                 }
-                {/* {tweets.length === 0 ? 'Twite alguma coisa! Vamos arranjar treta!' : ''} */}
+                {/* {tweets.length === 0 ? 'Twite alguma coisa! Vamos falar com pessoas!' : ''} */}
                 {tweets.map((tweet, index) => (
                   <Tweet
                     key={index}
