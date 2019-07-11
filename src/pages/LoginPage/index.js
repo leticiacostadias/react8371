@@ -5,7 +5,12 @@ import Widget from '../../components/Widget'
 import './loginPage.css'
 
 class LoginPage extends Component {
-  handleSubmit = (evento) => {
+  state = {
+    erro: ''
+  }
+
+  handleSubmit = async (evento) => {
+    evento.persist();
     evento.preventDefault();
 
     // pegar o usuario e senha
@@ -15,24 +20,53 @@ class LoginPage extends Component {
 
     // IE 6 -> axios
     // fetch(`https://api.com.br/user/${this.props.match.params.id}`)
-    fetch('http://twitelum-api.herokuapp.com/login', {
+    const resposta = await fetch('http://twitelum-api.herokuapp.com/login', {
       method: 'POST',
       body: JSON.stringify({
         login: this.refs.username.value,
         senha: this.refs.password.value
       })
-    }).then(resposta => {
-      return resposta.json();
-    }).then(dados => {
-      // console.log(dados)
-      // guardar token em algum lugar
-      // cookies, sessionStorage, localStorage
-      localStorage.setItem('token', dados.token);
-
-      // redirecionar pra home
-      this.props.history.push('/');
-      // this.props.match.params.id
     });
+
+    // console.log(evento.target);
+    const dados = await resposta.json();
+
+    if (dados.code) {
+      this.setState({
+        erro: dados.message
+      });
+
+      return;
+    }
+
+    localStorage.setItem('token', dados.token);
+    this.props.history.push('/');
+
+    // .then(resposta => {
+    //   // console.log(resposta);
+    //   // throw resposta;
+
+    //   return resposta.json();
+    // }).then(dados => {
+    //   // console.log(dados);
+
+    //   if (dados.code) {
+    //     throw dados;
+    //   }
+    //   // guardar token em algum lugar
+    //   // cookies, sessionStorage, localStorage
+    //   localStorage.setItem('token', dados.token);
+
+    //   // redirecionar pra home
+    //   this.props.history.push('/');
+    //   // this.props.match.params.id
+    // }).catch(data => {
+    //   // console.log(data);
+
+    //   this.setState({
+    //     erro: data.message
+    //   });
+    // });
   }
 
   render() {
@@ -70,9 +104,11 @@ class LoginPage extends Component {
                     name="senha"
                   />
                 </div>
-                {/* <div className="loginPage__errorBox">
-                  Mensagem de erro!
-                </div> */}
+                {this.state.erro && (
+                  <div className="loginPage__errorBox">
+                    {this.state.erro}
+                  </div>
+                )}
                 <div className="loginPage__inputWrap">
                   <button className="loginPage__btnLogin" type="submit">
                     Logar
