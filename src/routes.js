@@ -4,7 +4,7 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Login from './pages/LoginPage';
-
+import Logout from './components/Logout';
 
 // retornar o componente
 const RotaPrivada = (props) => {
@@ -22,6 +22,7 @@ const routes = () => {
     <Switch>
       <RotaPrivada path="/" component={Home} exact />
       <Route path="/login" component={Login} />
+      <Route path="/logout" component={Logout} />
       <Route path="*" component={NotFound} />
     </Switch>
   );
