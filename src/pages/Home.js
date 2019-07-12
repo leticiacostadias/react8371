@@ -113,10 +113,12 @@ class App extends Component {
                 ) /* truthy */
                 }
                 {/* {tweets.length === 0 ? 'Twite alguma coisa! Vamos falar com pessoas!' : ''} */}
-                {tweets.map((tweet, index) => (
+                {tweets.map(tweet => (
                   <Tweet
                     key={tweet._id}
-                    avatarUrl="https://bit.ly/2xF8hAM"
+                    avatarUrl={tweet.usuario.foto}
+                    totalLikes={tweet.totalLikes}
+                    likeado={tweet.likeado}
                     usuario={`${tweet.usuario.nome} ${tweet.usuario.sobrenome}`}
                     username={tweet.usuario.login}
                   >
