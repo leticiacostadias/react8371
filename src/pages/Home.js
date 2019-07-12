@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   // handleSubmit(evento) {
-  handleSubmit = (evento) => {
+  handleSubmit = async (evento) => {
     evento.preventDefault();
 
     // console.log(this);
@@ -33,8 +33,23 @@ class App extends Component {
     // console.log(novoTweet);
     // tweets.push(novoTweet); // não funfa :(
 
+    // salvar tweet no servidor
+    const resposta = await fetch(
+      `http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('token')}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          conteudo: novoTweet
+        })
+      }
+    );
+
+    const tweetCriado = await resposta.json();
+
+    console.log(tweetCriado);
+
     this.setState({
-      tweets: [novoTweet, ...tweets], // ES6 -> spread operator
+      tweets: [tweetCriado, ...tweets], // ES6 -> spread operator
       novoTweet: ''
     });
   }
@@ -100,12 +115,12 @@ class App extends Component {
                 {/* {tweets.length === 0 ? 'Twite alguma coisa! Vamos falar com pessoas!' : ''} */}
                 {tweets.map((tweet, index) => (
                   <Tweet
-                    key={index}
+                    key={tweet._id}
                     avatarUrl="https://bit.ly/2xF8hAM"
-                    usuario="Felizberto Bolinhos"
-                    username="felizbol"
+                    usuario={`${tweet.usuario.nome} ${tweet.usuario.sobrenome}`}
+                    username={tweet.usuario.login}
                   >
-                    {tweet}
+                    {tweet.conteudo}
                   </Tweet>
                 ))}
               </div>
