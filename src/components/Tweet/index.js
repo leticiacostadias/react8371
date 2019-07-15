@@ -1,7 +1,25 @@
-import React, { Component } from 'react'
-import './tweet.css'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import './tweet.css';
 
 class Tweet extends Component {
+    static propTypes = {
+        totalLikes: PropTypes.number,
+        likeado: PropTypes.bool,
+        removivel: PropTypes.bool,
+        avatarUrl: PropTypes.string,
+        children: PropTypes.node.isRequired, // string, number, bool, component
+        usuario: PropTypes.string.isRequired,
+        username:  PropTypes.string.isRequired
+    }
+
+    static defaultProps = {
+        totalLikes: 0,
+        likeado: false,
+        removivel: false,
+        avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
+    }
+
     state = {
         numeroLikes: this.props.totalLikes,
         curtido: this.props.likeado
@@ -16,12 +34,19 @@ class Tweet extends Component {
         });
     }
 
+    getHeartIconClass = () => {
+        const { curtido } = this.state;
+
+        return `icon icon--small iconHeart ${curtido ? 'iconHeart--active' : ''}`;
+    }
+
     render() {
         const {
             avatarUrl,
             children,
             usuario,
-            username
+            username,
+            removivel
         } = this.props;
         const { numeroLikes } = this.state;
 
@@ -45,7 +70,11 @@ class Tweet extends Component {
                 </p>
                 <footer className="tweet__footer">
                     <button className="btn btn--clean" onClick={this.handleLike}>
-                        <svg className="icon icon--small iconHeart iconHeart--active" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 47.5">
+                        <svg
+                            className={this.getHeartIconClass()}
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 47.5 47.5"
+                        >
                             <defs>
                                 <clipPath id="a">
                                     <path d="M0 38h38V0H0v38z"></path>
@@ -57,6 +86,11 @@ class Tweet extends Component {
                         </svg>
                         {numeroLikes}
                     </button>
+                    {removivel && (
+                        <button className="btn btn--blue btn--remove">
+                            X
+                        </button>
+                    )}
                 </footer>
             </article>
         )

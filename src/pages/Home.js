@@ -22,6 +22,30 @@ class App extends Component {
     tweets: []
   }
 
+  // UNSAFE_componentWillMount () {}
+  componentDidMount = async () => {
+    const resposta = await fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('token')}`);
+    const data = await resposta.json();
+
+    console.log(data);
+
+    this.setState({
+      tweets: [ ...data, ...this.state.tweets ]
+    });
+  }
+  
+  // UNSAFE_componentWillUpdate () {}
+  // componentDidUpdate () {
+    // if (!this.state.novoTweet) {
+    //   this.setState({ novoTweet: 'bolinho' });
+    // }
+  // }
+
+  // componentWillUnmount () {}
+  // UNSAFE_componentDidUnmount () {}
+
+  // componentDidCatch () {}
+
   // handleSubmit(evento) {
   handleSubmit = async (evento) => {
     evento.preventDefault();
@@ -110,8 +134,7 @@ class App extends Component {
                       Twite alguma coisa! Vamos falar com pessoas!
                     </span>
                   </>
-                ) /* truthy */
-                }
+                )} {/* truthy */}
                 {/* {tweets.length === 0 ? 'Twite alguma coisa! Vamos falar com pessoas!' : ''} */}
                 {tweets.map(tweet => (
                   <Tweet
@@ -119,6 +142,7 @@ class App extends Component {
                     avatarUrl={tweet.usuario.foto}
                     totalLikes={tweet.totalLikes}
                     likeado={tweet.likeado}
+                    removivel={tweet.removivel}
                     usuario={`${tweet.usuario.nome} ${tweet.usuario.sobrenome}`}
                     username={tweet.usuario.login}
                   >
