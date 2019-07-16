@@ -78,6 +78,23 @@ class App extends Component {
     });
   }
 
+  apagaTweet = async (idDoTweet) => {
+    const resposta = await fetch(
+      `http://twitelum-api.herokuapp.com/tweets/${idDoTweet}?X-AUTH-TOKEN=${localStorage.getItem('token')}`,
+      { method: 'DELETE' }
+    );
+
+    if (resposta.ok) {
+      const { tweets } = this.state;
+      const tweetsQueSobraram = tweets
+        .filter((tweet) => tweet._id !== idDoTweet);
+      
+      this.setState({
+        tweets: tweetsQueSobraram
+      });
+    }
+  }
+
   novoTweetValido = () => {
     return this.state.novoTweet.length > 140 || this.state.novoTweet.length === 0;
   }
@@ -139,10 +156,13 @@ class App extends Component {
                 {tweets.map(tweet => (
                   <Tweet
                     key={tweet._id}
+                    id={tweet._id}
                     avatarUrl={tweet.usuario.foto}
                     totalLikes={tweet.totalLikes}
                     likeado={tweet.likeado}
                     removivel={tweet.removivel}
+                    // onApagar={() => this.apagaTweet(tweet._id)}
+                    onApagar={this.apagaTweet}
                     usuario={`${tweet.usuario.nome} ${tweet.usuario.sobrenome}`}
                     username={tweet.usuario.login}
                   >

@@ -8,12 +8,15 @@ class Tweet extends Component {
         likeado: PropTypes.bool,
         removivel: PropTypes.bool,
         avatarUrl: PropTypes.string,
+        id: PropTypes.string.isRequired,
         children: PropTypes.node.isRequired, // string, number, bool, component
         usuario: PropTypes.string.isRequired,
-        username:  PropTypes.string.isRequired
+        username:  PropTypes.string.isRequired,
+        onApagar: PropTypes.func
     }
 
     static defaultProps = {
+        onApagar: () => {},
         totalLikes: 0,
         likeado: false,
         removivel: false,
@@ -38,6 +41,10 @@ class Tweet extends Component {
         const { curtido } = this.state;
 
         return `icon icon--small iconHeart ${curtido ? 'iconHeart--active' : ''}`;
+    }
+
+    handleExcluir = () => {
+        this.props.onApagar(this.props.id);
     }
 
     render() {
@@ -87,7 +94,10 @@ class Tweet extends Component {
                         {numeroLikes}
                     </button>
                     {removivel && (
-                        <button className="btn btn--blue btn--remove">
+                        <button
+                            // onClick={() => onApagar(id)}
+                            onClick={this.handleExcluir}
+                            className="btn btn--blue btn--remove">
                             X
                         </button>
                     )}
