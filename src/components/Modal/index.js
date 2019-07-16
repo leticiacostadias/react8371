@@ -4,6 +4,10 @@ import Widget from './../Widget';
 import './modal.css';
 
 class Modal extends Component {
+  // handleClickWrap = (event) => {
+  //   event.stopPropagation();
+  // }
+
   render() {
     // if (!this.props.estaAberto) return null;
     return (
@@ -11,7 +15,10 @@ class Modal extends Component {
         onClick={this.props.onClose}
         className={`modal ${this.props.estaAberto ? 'modal--aberto' : ''}`}
       >
-        <div className="modal__wrap">
+        <div
+          className="modal__wrap"
+          // onClick={this.handleClickWrap}
+        >
           <Widget>
             {this.props.children}
           </Widget>

@@ -97,6 +97,16 @@ class App extends Component {
     }
   }
 
+  fechaModal = (event) => {
+    if (event.target.closest('.modal__wrap')) return;
+
+    const { modalAberto } = this.state;
+
+    this.setState({
+      modalAberto: !modalAberto
+    });
+  }
+
   novoTweetValido = () => {
     return this.state.novoTweet.length > 140 || this.state.novoTweet.length === 0;
   }
@@ -177,7 +187,7 @@ class App extends Component {
         </div>
         <Modal
           estaAberto={modalAberto}
-          onClose={}
+          onClose={this.fechaModal}
         >
           Eu sou um modal muito bonito!
         </Modal>
