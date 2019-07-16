@@ -12,11 +12,14 @@ class Tweet extends Component {
         children: PropTypes.node.isRequired, // string, number, bool, component
         usuario: PropTypes.string.isRequired,
         username:  PropTypes.string.isRequired,
-        onApagar: PropTypes.func
+        onApagar: PropTypes.func,
+        onClick: PropTypes.func
     }
 
     static defaultProps = {
         onApagar: () => {},
+        onClick: null,
+        // onClick: () => {},
         totalLikes: 0,
         likeado: false,
         removivel: false,
@@ -44,14 +47,20 @@ class Tweet extends Component {
         }
     }
 
+    handleExcluir = () => {
+        this.props.onApagar(this.props.id);
+    }
+
+    handleClick = (evento) => {
+        if (!evento.target.closest('.tweet__action')) {
+            this.props.onClick();
+        }
+    }
+
     getHeartIconClass = () => {
         const { curtido } = this.state;
 
         return `icon icon--small iconHeart ${curtido ? 'iconHeart--active' : ''}`;
-    }
-
-    handleExcluir = () => {
-        this.props.onApagar(this.props.id);
     }
 
     render() {
@@ -65,7 +74,7 @@ class Tweet extends Component {
         const { numeroLikes } = this.state;
 
         return (
-            <article className="tweet">
+            <article className="tweet" onClick={this.handleClick}>
                 <div className="tweet__cabecalho">
                     <img className="tweet__fotoUsuario" src={avatarUrl} alt="" />
                     <span className="tweet__nomeUsuario">
@@ -83,7 +92,10 @@ class Tweet extends Component {
                     </span>
                 </p>
                 <footer className="tweet__footer">
-                    <button className="btn btn--clean" onClick={this.handleLike}>
+                    <button
+                        className="tweet__action btn btn--clean"
+                        onClick={this.handleLike}
+                    >
                         <svg
                             className={this.getHeartIconClass()}
                             xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +116,7 @@ class Tweet extends Component {
                         <button
                             // onClick={() => onApagar(id)}
                             onClick={this.handleExcluir}
-                            className="btn btn--blue btn--remove"
+                            className="tweet__action btn btn--blue btn--remove"
                         >
                             X
                         </button>

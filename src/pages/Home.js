@@ -20,7 +20,8 @@ class App extends Component {
 
   state = {
     novoTweet: '',
-    modalAberto: true,
+    modalAberto: false,
+    tweetSelecionado: null,
     tweets: []
   }
 
@@ -29,7 +30,7 @@ class App extends Component {
     const resposta = await fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('token')}`);
     const data = await resposta.json();
 
-    console.log(data);
+    // console.log(data);
 
     this.setState({
       tweets: [ ...data, ...this.state.tweets ]
@@ -80,6 +81,15 @@ class App extends Component {
     });
   }
 
+  // criar uma função que coloque
+  // o tweet clicado no state
+  abreModalTweet = (tweetClicado) => {
+    this.setState({
+      modalAberto: true,
+      tweetSelecionado: tweetClicado
+    });
+  }
+
   apagaTweet = async (idDoTweet) => {
     const resposta = await fetch(
       `http://twitelum-api.herokuapp.com/tweets/${idDoTweet}?X-AUTH-TOKEN=${localStorage.getItem('token')}`,
@@ -100,10 +110,12 @@ class App extends Component {
   fechaModal = (event) => {
     if (event.target.closest('.modal__wrap')) return;
 
-    const { modalAberto } = this.state;
+    // const { modalAberto } = this.state;
 
     this.setState({
-      modalAberto: !modalAberto
+      tweetSelecionado: null,
+      modalAberto: false,
+      // modalAberto: !modalAberto
     });
   }
 
@@ -112,7 +124,12 @@ class App extends Component {
   }
 
   render() {
-    const { novoTweet, tweets, modalAberto } = this.state;
+    const {
+      novoTweet,
+      tweets,
+      // modalAberto,
+      tweetSelecionado
+    } = this.state;
 
     return (
       <Fragment>
@@ -175,6 +192,8 @@ class App extends Component {
                     removivel={tweet.removivel}
                     // onApagar={() => this.apagaTweet(tweet._id)}
                     onApagar={this.apagaTweet}
+                    // onClick={this.abreModalTweet.bind(this, tweet)}
+                    onClick={() => this.abreModalTweet(tweet)}
                     usuario={`${tweet.usuario.nome} ${tweet.usuario.sobrenome}`}
                     username={tweet.usuario.login}
                   >
@@ -186,10 +205,23 @@ class App extends Component {
           </Dashboard>
         </div>
         <Modal
-          estaAberto={modalAberto}
+          estaAberto={tweetSelecionado}
           onClose={this.fechaModal}
         >
-          Eu sou um modal muito bonito!
+          {tweetSelecionado && (
+            <Tweet
+              id={tweetSelecionado._id}
+              avatarUrl={tweetSelecionado.usuario.foto}
+              totalLikes={tweetSelecionado.totalLikes}
+              likeado={tweetSelecionado.likeado}
+              removivel={tweetSelecionado.removivel}
+              onApagar={this.apagatweetSelecionado}
+              usuario={`${tweetSelecionado.usuario.nome} ${tweetSelecionado.usuario.sobrenome}`}
+              username={tweetSelecionado.usuario.login}
+            >
+              {tweetSelecionado.conteudo}
+            </Tweet>
+          )}
         </Modal>
       </Fragment>
     );
