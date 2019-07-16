@@ -17,7 +17,7 @@ class Tweet extends Component {
   }
 
   static defaultProps = {
-    onApagar: () => { },
+    onApagar: () => {},
     onClick: null,
     // onClick: () => {},
     totalLikes: 0,
@@ -52,8 +52,10 @@ class Tweet extends Component {
   }
 
   handleClick = (evento) => {
-    if (!evento.target.closest('.tweet__action')) {
-      this.props.onClick();
+    const { onClick } = this.props;
+
+    if (!evento.target.closest('.tweet__action') && onClick) {
+      onClick();
     }
   }
 
@@ -119,7 +121,7 @@ class Tweet extends Component {
               className="tweet__action btn btn--blue btn--remove"
             >
               X
-                        </button>
+            </button>
           )}
         </footer>
       </article>

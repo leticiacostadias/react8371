@@ -102,7 +102,9 @@ class App extends Component {
         .filter((tweet) => tweet._id !== idDoTweet);
       
       this.setState({
-        tweets: tweetsQueSobraram
+        tweets: tweetsQueSobraram,
+        tweetSelecionado: null,
+        modalAberto: false
       });
     }
   }
@@ -215,7 +217,7 @@ class App extends Component {
               totalLikes={tweetSelecionado.totalLikes}
               likeado={tweetSelecionado.likeado}
               removivel={tweetSelecionado.removivel}
-              onApagar={this.apagatweetSelecionado}
+              onApagar={this.apagaTweet}
               usuario={`${tweetSelecionado.usuario.nome} ${tweetSelecionado.usuario.sobrenome}`}
               username={tweetSelecionado.usuario.login}
             >
