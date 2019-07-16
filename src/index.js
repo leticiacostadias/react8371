@@ -13,6 +13,8 @@ import "./assets/css/notificacao.css";
 import "./assets/css/novoTweet.css";
 // import './index.css';
 
+import './store';
+
 // import App from './App';
 import Routes from './routes';
 import * as serviceWorker from './serviceWorker';

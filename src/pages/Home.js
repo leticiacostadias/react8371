@@ -20,7 +20,7 @@ class App extends Component {
 
   state = {
     novoTweet: '',
-    modalAberto: false,
+    // modalAberto: false,
     tweetSelecionado: null,
     tweets: []
   }
@@ -85,7 +85,7 @@ class App extends Component {
   // o tweet clicado no state
   abreModalTweet = (tweetClicado) => {
     this.setState({
-      modalAberto: true,
+      // modalAberto: true,
       tweetSelecionado: tweetClicado
     });
   }
@@ -103,8 +103,8 @@ class App extends Component {
       
       this.setState({
         tweets: tweetsQueSobraram,
-        tweetSelecionado: null,
-        modalAberto: false
+        tweetSelecionado: null
+        // modalAberto: false
       });
     }
   }
@@ -115,8 +115,8 @@ class App extends Component {
     // const { modalAberto } = this.state;
 
     this.setState({
-      tweetSelecionado: null,
-      modalAberto: false,
+      tweetSelecionado: null
+      // modalAberto: false,
       // modalAberto: !modalAberto
     });
   }
