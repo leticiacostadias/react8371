@@ -1,0 +1,21 @@
+.modal {
+  background-color: rgba(0, 0, 0, 0.4);
+  bottom: 0;
+  position: fixed;
+  left: 0;
+  pointer-events: none;
+  right: 0;
+  top: 0;
+  /* transform: translateY(-100%); */
+  visibility: hidden;
+  z-index: 9999;
+}
+
+.modal--aberto {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.modal__wrap {
+  margin: 10%;
+}

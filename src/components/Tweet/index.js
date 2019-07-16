@@ -28,13 +28,20 @@ class Tweet extends Component {
         curtido: this.props.likeado
     }
 
-    handleLike = () => {
+    handleLike = async () => {
+        const { id } = this.props;
         const { curtido, numeroLikes } = this.state;
+        const resposta = await fetch(
+            `http://twitelum-api.herokuapp.com/tweets/${id}/like?X-AUTH-TOKEN=${localStorage.getItem('token')}`,
+            { method: 'POST' }
+        );
 
-        this.setState({
-            numeroLikes: numeroLikes + (curtido ? -1 : 1),
-            curtido: !curtido
-        });
+        if (resposta.ok) {
+            this.setState({
+                numeroLikes: numeroLikes + (curtido ? -1 : 1),
+                curtido: !curtido
+            });
+        }
     }
 
     getHeartIconClass = () => {
@@ -97,7 +104,8 @@ class Tweet extends Component {
                         <button
                             // onClick={() => onApagar(id)}
                             onClick={this.handleExcluir}
-                            className="btn btn--blue btn--remove">
+                            className="btn btn--blue btn--remove"
+                        >
                             X
                         </button>
                     )}

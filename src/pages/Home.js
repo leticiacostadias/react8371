@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Cabecalho from './../components/Cabecalho'
 import NavMenu from './../components/NavMenu'
 import Dashboard from './../components/Dashboard'
+import Modal from './../components/Modal'
 import Widget from './../components/Widget'
 import TrendsArea from './../components/TrendsArea'
 import Tweet from './../components/Tweet'
@@ -19,6 +20,7 @@ class App extends Component {
 
   state = {
     novoTweet: '',
+    modalAberto: true,
     tweets: []
   }
 
@@ -100,7 +102,7 @@ class App extends Component {
   }
 
   render() {
-    const { novoTweet, tweets } = this.state;
+    const { novoTweet, tweets, modalAberto } = this.state;
 
     return (
       <Fragment>
@@ -173,6 +175,12 @@ class App extends Component {
             </Widget>
           </Dashboard>
         </div>
+        <Modal
+          estaAberto={modalAberto}
+          onClose={}
+        >
+          Eu sou um modal muito bonito!
+        </Modal>
       </Fragment>
     );
   }
