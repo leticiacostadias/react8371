@@ -87,10 +87,15 @@ class App extends Component {
 
     const tweetCriado = await resposta.json();
 
+    this.props.dispatch({
+      type: 'NOVO_TWEET',
+      payload: tweetCriado
+    });
+
     // console.log(tweetCriado);
 
     this.setState({
-      tweets: [tweetCriado, ...tweets], // ES6 -> spread operator
+      // tweets: [tweetCriado, ...tweets], // ES6 -> spread operator
       novoTweet: ''
     });
   }
@@ -111,12 +116,14 @@ class App extends Component {
     );
 
     if (resposta.ok) {
-      const { tweets } = this.state;
-      const tweetsQueSobraram = tweets
-        .filter((tweet) => tweet._id !== idDoTweet);
+      // this.props.dispatch()
+
+      // const { tweets } = this.state;
+      // const tweetsQueSobraram = tweets
+      //   .filter((tweet) => tweet._id !== idDoTweet);
       
       this.setState({
-        tweets: tweetsQueSobraram,
+        // tweets: tweetsQueSobraram,
         tweetSelecionado: null
         // modalAberto: false
       });
@@ -251,3 +258,4 @@ function mapStateToProps (stateDaStore) {
 }
 
 export default connect(mapStateToProps)(App);
+// export default connect()(App);
