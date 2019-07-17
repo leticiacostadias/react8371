@@ -24,7 +24,7 @@ class App extends Component {
     novoTweet: '',
     // modalAberto: false,
     tweetSelecionado: null,
-    tweets: []
+    // tweets: []
   }
 
   // UNSAFE_componentWillMount () {}
@@ -69,7 +69,7 @@ class App extends Component {
 
     // console.log(this);
 
-    const { novoTweet, tweets } = this.state;
+    const { novoTweet } = this.state;
 
     // console.log(novoTweet);
     // tweets.push(novoTweet); // não funfa :(
@@ -116,7 +116,10 @@ class App extends Component {
     );
 
     if (resposta.ok) {
-      // this.props.dispatch()
+      this.props.dispatch({
+        type: 'APAGA_TWEET',
+        payload: idDoTweet
+      })
 
       // const { tweets } = this.state;
       // const tweetsQueSobraram = tweets
@@ -143,7 +146,9 @@ class App extends Component {
   }
 
   novoTweetValido = () => {
-    return this.state.novoTweet.length > 140 || this.state.novoTweet.length === 0;
+    const { novoTweet }= this.state;
+
+    return novoTweet.length > 140 || novoTweet.length === 0;
   }
 
   render() {

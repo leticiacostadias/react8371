@@ -27,8 +27,16 @@ function reducer (store = stateInicial, action = {}) {
       };
     
     // type novo p/ excluir
-    // payload -> id do tweet excluído
+    // payload -> id do tweet excluído -> action.payload
+    case 'APAGA_TWEET':
+      const idDoTweet = action.payload;
 
+      // store.tweets.filter((tweet) => tweet._id !== idDoTweet));
+      const tweetsQueSobraram = store.tweets
+        .filter((tweet) => !(tweet._id === idDoTweet));
+      
+      return { tweets: tweetsQueSobraram };
+    
 
     // case 'NOVO_BOLINHO':
     //   return { status: 'assando', bolinho: store.bolinho };
