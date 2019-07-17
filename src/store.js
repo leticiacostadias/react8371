@@ -48,4 +48,6 @@ const store = createStore(reducer);
 
 console.log('Store foi criada!');
 
-window.store = store;
+// window.store = store;
+
+export default store;

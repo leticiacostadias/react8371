@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+
 import Cabecalho from './../components/Cabecalho'
 import NavMenu from './../components/NavMenu'
 import Dashboard from './../components/Dashboard'
@@ -27,20 +29,20 @@ class App extends Component {
 
   // UNSAFE_componentWillMount () {}
   componentDidMount = async () => {
-    window.store.subscribe(() => {
-      const stateDaStore = window.store.getState();
+    // window.store.subscribe(() => {
+    //   const stateDaStore = window.store.getState();
 
-      this.setState({
-        tweets: stateDaStore.tweets
-      });
-    });
+    //   this.setState({
+    //     tweets: stateDaStore.tweets
+    //   });
+    // });
 
     const resposta = await fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('token')}`);
     const data = await resposta.json();
 
     // console.log(data);
 
-    window.store.dispatch({
+    this.props.dispatch({
       type: 'CARREGA_TWEETS',
       payload: data
     });
@@ -85,7 +87,7 @@ class App extends Component {
 
     const tweetCriado = await resposta.json();
 
-    console.log(tweetCriado);
+    // console.log(tweetCriado);
 
     this.setState({
       tweets: [tweetCriado, ...tweets], // ES6 -> spread operator
@@ -140,7 +142,7 @@ class App extends Component {
   render() {
     const {
       novoTweet,
-      tweets,
+      // tweets,
       // modalAberto,
       tweetSelecionado
     } = this.state;
@@ -188,7 +190,7 @@ class App extends Component {
           <Dashboard posicao="centro">
             <Widget>
               <div className="tweetsArea">
-                {tweets.length === 0 && (
+                {this.props.listaTweets.length === 0 && (
                   <>
                     <span>
                       Twite alguma coisa! Vamos falar com pessoas!
@@ -196,7 +198,7 @@ class App extends Component {
                   </>
                 )} {/* truthy */}
                 {/* {tweets.length === 0 ? 'Twite alguma coisa! Vamos falar com pessoas!' : ''} */}
-                {tweets.map(tweet => (
+                {this.props.listaTweets.map(tweet => (
                   <Tweet
                     key={tweet._id}
                     id={tweet._id}
@@ -242,4 +244,10 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps (stateDaStore) {
+  return {
+    listaTweets: stateDaStore.tweets
+  };
+}
+
+export default connect(mapStateToProps)(App);
