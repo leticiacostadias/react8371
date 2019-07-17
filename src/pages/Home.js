@@ -27,14 +27,26 @@ class App extends Component {
 
   // UNSAFE_componentWillMount () {}
   componentDidMount = async () => {
+    window.store.subscribe(() => {
+      const stateDaStore = window.store.getState();
+
+      this.setState({
+        tweets: stateDaStore.tweets
+      });
+    });
+
     const resposta = await fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('token')}`);
     const data = await resposta.json();
 
     // console.log(data);
 
-    this.setState({
-      tweets: [ ...data, ...this.state.tweets ]
+    window.store.dispatch({
+      type: 'CARREGA_TWEETS',
+      payload: data
     });
+    // this.setState({
+    //   tweets: [ ...data, ...this.state.tweets ]
+    // });
   }
   
   // UNSAFE_componentWillUpdate () {}

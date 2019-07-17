@@ -1,22 +1,26 @@
 import { createStore } from 'redux';
 
 const stateInicial = {
-  status: '',
-  bolinho: []
+  tweets: [],
+  // tweetSelecionado: '',
+  // bolinho: []
 };
 
 function reducer (store = stateInicial, action = {}) {
   // console.log(action);
 
   switch (action.type) {
-    case 'NOVO_BOLINHO':
-      return { status: 'assando', bolinho: store.bolinho };
+    case 'CARREGA_TWEETS':
+      return { tweets: action.payload };
+      
+    // case 'NOVO_BOLINHO':
+    //   return { status: 'assando', bolinho: store.bolinho };
     
-    case 'BOLINHO_ASSADO':
-      return {
-        status: 'pronto',
-        bolinho: [action.payload, ...store.bolinho ]
-      };
+    // case 'BOLINHO_ASSADO':
+    //   return {
+    //     status: 'pronto',
+    //     bolinho: [action.payload, ...store.bolinho ]
+    //   };
     
     default:
       return store;
