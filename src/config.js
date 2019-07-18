@@ -9,6 +9,10 @@ const config = {
       create: {
         method: 'POST',
         action: '/tweets'
+      },
+      delete: {
+        method: 'DELETE',
+        action: '/tweets/'
       }
     }
   }

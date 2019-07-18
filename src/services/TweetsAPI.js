@@ -74,8 +74,8 @@ export async function criaTweet(novoTweet, token) {
 
 export async function deletaTweet(tweetId, token) {
   const resposta = await fetch(
-    `http://twitelum-api.herokuapp.com/tweets/${tweetId}?X-AUTH-TOKEN=${token}`,
-    { method: 'DELETE' }
+    `${apiUrl}${tweets.delete.action}${tweetId}?X-AUTH-TOKEN=${token}`,
+    { method: tweets.delete.method }
   );
 
   if (resposta.ok) {
