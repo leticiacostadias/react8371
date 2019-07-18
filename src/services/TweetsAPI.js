@@ -71,3 +71,20 @@ export async function criaTweet(novoTweet, token) {
     payload: tweetCriado
   };
 }
+
+export async function deletaTweet(tweetId, token) {
+  const resposta = await fetch(
+    `http://twitelum-api.herokuapp.com/tweets/${tweetId}?X-AUTH-TOKEN=${token}`,
+    { method: 'DELETE' }
+  );
+
+  if (resposta.ok) {
+    return {
+      success: true,
+      action: {
+        type: 'APAGA_TWEET',
+        payload: tweetId
+      }
+    };
+  }
+}

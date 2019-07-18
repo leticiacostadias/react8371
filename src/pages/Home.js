@@ -83,7 +83,7 @@ class App extends Component {
     // tweets.push(novoTweet); // não funfa :(
     try {
       // this.props.dispatch(await TweetsAPI.criaTweet(novoTweet, token, () => {
-        // this.setState({ novoTweet: '' });
+      //   this.setState({ novoTweet: '' });
       // }));
       this.props.dispatch(await TweetsAPI.criaTweet(novoTweet, token));
 
@@ -107,27 +107,28 @@ class App extends Component {
   }
 
   apagaTweet = async (idDoTweet) => {
-    const resposta = await fetch(
-      `http://twitelum-api.herokuapp.com/tweets/${idDoTweet}?X-AUTH-TOKEN=${localStorage.getItem('token')}`,
-      { method: 'DELETE' }
-    );
+    const token = localStorage.getItem('token');
 
-    if (resposta.ok) {
-      this.props.dispatch({
-        type: 'APAGA_TWEET',
-        payload: idDoTweet
-      })
+    try {
+      const { success, action } = await TweetsAPI.deletaTweet(idDoTweet, token);
 
-      // const { tweets } = this.state;
-      // const tweetsQueSobraram = tweets
-      //   .filter((tweet) => tweet._id !== idDoTweet);
-      
-      this.setState({
-        // tweets: tweetsQueSobraram,
-        tweetSelecionado: null
-        // modalAberto: false
-      });
+      if (success) {
+        this.props.dispatch(action);
+
+        // const { tweets } = this.state;
+        // const tweetsQueSobraram = tweets
+        //   .filter((tweet) => tweet._id !== idDoTweet);
+        
+        this.setState({
+          // tweets: tweetsQueSobraram,
+          tweetSelecionado: null
+          // modalAberto: false
+        });
+      }
+    } catch (e) {
+      console.log('damn!');
     }
+    // }
   }
 
   fechaModal = (event) => {
