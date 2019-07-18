@@ -9,6 +9,9 @@ import Widget from './../components/Widget'
 import TrendsArea from './../components/TrendsArea'
 import Tweet from './../components/Tweet'
 
+// import { listaTweets } from './../services/TweetsAPI';
+import * as TweetsAPI from './../services/TweetsAPI';
+
 class App extends Component {
   // constructor (props) {
   //   super(props);
@@ -37,15 +40,20 @@ class App extends Component {
     //   });
     // });
 
-    const resposta = await fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('token')}`);
-    const data = await resposta.json();
+    // const resposta = await fetch(`http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('token')}`);
+    // const data = await resposta.json();
 
     // console.log(data);
 
-    this.props.dispatch({
-      type: 'CARREGA_TWEETS',
-      payload: data
-    });
+    // this.props.dispatch({
+    //   type: 'CARREGA_TWEETS',
+    //   payload: data
+    // });
+    const token = localStorage.getItem('token');
+    // const action = await TweetsAPI.listaTweets(token);
+
+    this.props.dispatch(TweetsAPI.listaTweets(token));
+    // console.log(TweetsAPI.listaTweets(token));
     // this.setState({
     //   tweets: [ ...data, ...this.state.tweets ]
     // });
