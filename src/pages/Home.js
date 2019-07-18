@@ -78,34 +78,23 @@ class App extends Component {
     // console.log(this);
 
     const { novoTweet } = this.state;
-
+    const token = localStorage.getItem('token');
     // console.log(novoTweet);
     // tweets.push(novoTweet); // não funfa :(
+    try {
+      // this.props.dispatch(await TweetsAPI.criaTweet(novoTweet, token, () => {
+        // this.setState({ novoTweet: '' });
+      // }));
+      this.props.dispatch(await TweetsAPI.criaTweet(novoTweet, token));
 
-    // salvar tweet no servidor
-    const resposta = await fetch(
-      `http://twitelum-api.herokuapp.com/tweets?X-AUTH-TOKEN=${localStorage.getItem('token')}`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          conteudo: novoTweet
-        })
-      }
-    );
-
-    const tweetCriado = await resposta.json();
-
-    this.props.dispatch({
-      type: 'NOVO_TWEET',
-      payload: tweetCriado
-    });
-
-    // console.log(tweetCriado);
-
-    this.setState({
-      // tweets: [tweetCriado, ...tweets], // ES6 -> spread operator
-      novoTweet: ''
-    });
+      // console.log(tweetCriado);
+      this.setState({
+        // tweets: [tweetCriado, ...tweets], // ES6 -> spread operator
+        novoTweet: ''
+      });
+    } catch (e) {
+      console.log('não pude executar a request');
+    }
   }
 
   // criar uma função que coloque

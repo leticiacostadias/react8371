@@ -1,7 +1,16 @@
 const config = {
   apiUrl: 'http://twitelum-api.herokuapp.com',
   endpoints: {
-    listTweets: '/tweets'
+    tweets: {
+      read: {
+        method: 'GET',
+        action: '/tweets'
+      },
+      create: {
+        method: 'POST',
+        action: '/tweets'
+      }
+    }
   }
 };
 

@@ -1,5 +1,6 @@
 import config from './../config';
 const { apiUrl, endpoints } = config;
+const { tweets } = endpoints;
 
 export function listaTweets(token) {
   return (dispatch) => {
@@ -7,7 +8,10 @@ export function listaTweets(token) {
       // const resposta = await fetch(`${apiUrl}${endpoints.listTweets}?X-AUTH-TOKEN=${token}`);
       // const data = await resposta.json();
 
-      return fetch(`${apiUrl}${endpoints.listTweets}?X-AUTH-TOKEN=${token}`)
+      return fetch(
+        `${apiUrl}${tweets.read.action}?X-AUTH-TOKEN=${token}`,
+        { method: tweets.read.method }
+      )
         .then(resposta => resposta.json())
         .then(data => {
           dispatch({
@@ -19,4 +23,51 @@ export function listaTweets(token) {
       console.log(e);
     }
   }
+}
+
+// Tratamento de erro com thunk
+// export async function criaTweet(novoTweet, token, onSuccess) {
+//   return async (dispatch) => {
+//     try {
+//       const resposta = await fetch(
+//         `${apiUrl}${tweets.create.action}?X-AUTH-TOKEN=${token}`,
+//         {
+//           method: tweets.create.method,
+//           body: JSON.stringify({
+//             conteudo: novoTweet
+//           })
+//         }
+//       );
+
+//       const tweetCriado = await resposta.json();
+
+//       onSuccess();
+
+//       dispatch({
+//         type: 'NOVO_TWEET',
+//         payload: tweetCriado
+//       });
+//     } catch (e) {
+//       console.log('algo deu errado');
+//     }
+//   }
+// }
+
+export async function criaTweet(novoTweet, token) {
+  const resposta = await fetch(
+    `${apiUrl}${tweets.create.action}?X-AUTH-TOKEN=${token}`,
+    {
+      method: tweets.create.method,
+      body: JSON.stringify({
+        conteudo: novoTweet
+      })
+    }
+  );
+
+  const tweetCriado = await resposta.json();
+
+  return {
+    type: 'NOVO_TWEET',
+    payload: tweetCriado
+  };
 }
