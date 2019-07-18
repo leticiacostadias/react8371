@@ -25,8 +25,8 @@ class App extends Component {
 
   state = {
     novoTweet: '',
-    // modalAberto: false,
     tweetSelecionado: null,
+    // modalAberto: false,
     // tweets: []
   }
 

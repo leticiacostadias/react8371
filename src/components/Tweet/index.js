@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import './tweet.css';
+
+import { likeTweet } from './../../services/TweetsAPI';
 
 class Tweet extends Component {
   static propTypes = {
@@ -26,25 +30,33 @@ class Tweet extends Component {
     avatarUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
   }
 
-  state = {
-    numeroLikes: this.props.totalLikes,
-    curtido: this.props.likeado
-  }
+  // state = {
+  //   numeroLikes: this.props.totalLikes,
+  //   curtido: this.props.likeado
+  // }
 
   handleLike = async () => {
     const { id } = this.props;
-    const { curtido, numeroLikes } = this.state;
-    const resposta = await fetch(
-      `http://twitelum-api.herokuapp.com/tweets/${id}/like?X-AUTH-TOKEN=${localStorage.getItem('token')}`,
-      { method: 'POST' }
-    );
+    // const { curtido, numeroLikes } = this.state;
+    const token = localStorage.getItem('token');
 
-    if (resposta.ok) {
-      this.setState({
-        numeroLikes: numeroLikes + (curtido ? -1 : 1),
-        curtido: !curtido
-      });
+    const resultadoLike = await likeTweet(id, token);
+
+    if (resultadoLike.success) {
+      this.props.dispatch(resultadoLike.action);
     }
+
+    // const resposta = await fetch(
+    //   `http://twitelum-api.herokuapp.com/tweets/${id}/like?X-AUTH-TOKEN=${localStorage.getItem('token')}`,
+    //   { method: 'POST' }
+    // );
+
+    // if (resposta.ok) {
+    //   this.setState({
+    //     numeroLikes: numeroLikes + (curtido ? -1 : 1),
+    //     curtido: !curtido
+    //   });
+    // }
   }
 
   handleExcluir = () => {
@@ -60,9 +72,9 @@ class Tweet extends Component {
   }
 
   getHeartIconClass = () => {
-    const { curtido } = this.state;
+    const { likeado } = this.props;
 
-    return `icon icon--small iconHeart ${curtido ? 'iconHeart--active' : ''}`;
+    return `icon icon--small iconHeart ${likeado ? 'iconHeart--active' : ''}`;
   }
 
   render() {
@@ -71,9 +83,10 @@ class Tweet extends Component {
       children,
       usuario,
       username,
+      totalLikes,
       removivel
     } = this.props;
-    const { numeroLikes } = this.state;
+    // const { numeroLikes } = this.state;
 
     return (
       <article className="tweet" onClick={this.handleClick}>
@@ -112,7 +125,7 @@ class Tweet extends Component {
                 <path d="M36.885 25.166c0 5.45-4.418 9.868-9.867 9.868-3.308 0-6.227-1.632-8.018-4.128-1.79 2.496-4.71 4.129-8.017 4.129-5.45 0-9.868-4.418-9.868-9.868 0-.773.098-1.52.266-2.242C2.75 14.413 12.216 5.431 19 2.965c6.783 2.466 16.249 11.448 17.617 19.96.17.721.268 1.47.268 2.241"></path>
               </g>
             </svg>
-            {numeroLikes}
+            {totalLikes}
           </button>
           {removivel && (
             <button
@@ -129,4 +142,4 @@ class Tweet extends Component {
   }
 }
 
-export default Tweet
+export default connect()(Tweet);

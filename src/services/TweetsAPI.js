@@ -88,3 +88,18 @@ export async function deletaTweet(tweetId, token) {
     };
   }
 }
+
+export async function likeTweet (tweetId, token) {
+  const resposta = await fetch(
+    `http://twitelum-api.herokuapp.com/tweets/${tweetId}/like?X-AUTH-TOKEN=${token}`,
+    { method: 'POST' }
+  );
+
+  return {
+    success: resposta.ok,
+    action: {
+      type: 'CURTE_TWEET',
+      payload: tweetId
+    }
+  };
+}

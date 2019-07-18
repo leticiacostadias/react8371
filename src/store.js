@@ -37,6 +37,17 @@ function reducer (store = stateInicial, action = {}) {
         .filter((tweet) => !(tweet._id === idDoTweet));
       
       return { tweets: tweetsQueSobraram };
+
+    case 'CURTE_TWEET':
+      const tweetCurtido = store.tweets
+        .find((tweet) => tweet._id === action.payload);
+      
+      tweetCurtido.totalLikes += tweetCurtido.likeado ? -1 : 1;
+      tweetCurtido.likeado = !tweetCurtido.likeado;
+
+      return {
+        tweets: [...store.tweets]
+      };
     
 
     // case 'NOVO_BOLINHO':
