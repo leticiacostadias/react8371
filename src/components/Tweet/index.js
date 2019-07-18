@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 import './tweet.css';
 
@@ -38,13 +38,7 @@ class Tweet extends Component {
   handleLike = async () => {
     const { id } = this.props;
     // const { curtido, numeroLikes } = this.state;
-    const token = localStorage.getItem('token');
-
-    const resultadoLike = await likeTweet(id, token);
-
-    if (resultadoLike.success) {
-      this.props.dispatch(resultadoLike.action);
-    }
+    await this.props.onLike(id);
 
     // const resposta = await fetch(
     //   `http://twitelum-api.herokuapp.com/tweets/${id}/like?X-AUTH-TOKEN=${localStorage.getItem('token')}`,
@@ -142,4 +136,5 @@ class Tweet extends Component {
   }
 }
 
-export default connect()(Tweet);
+// export default connect()(Tweet);
+export default Tweet;

@@ -7,7 +7,8 @@ import Dashboard from './../components/Dashboard'
 import Modal from './../components/Modal'
 import Widget from './../components/Widget'
 import TrendsArea from './../components/TrendsArea'
-import Tweet from './../components/Tweet'
+
+import Tweet from './../containers/TweetConectado'
 
 // import { listaTweets } from './../services/TweetsAPI';
 import * as TweetsAPI from './../services/TweetsAPI';
