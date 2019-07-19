@@ -18,6 +18,11 @@ export function listaTweets(token) {
             type: 'CARREGA_TWEETS',
             payload: data
           });
+
+          dispatch({
+            type: 'EXIBIR_NOTIFICACAO',
+            payload: 'Bem vindo!'
+          });
         });
     } catch (e) {
       console.log(e);

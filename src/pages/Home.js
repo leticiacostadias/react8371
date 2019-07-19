@@ -87,6 +87,10 @@ class App extends Component {
       //   this.setState({ novoTweet: '' });
       // }));
       this.props.dispatch(await TweetsAPI.criaTweet(novoTweet, token));
+      this.props.dispatch({
+        type: 'EXIBIR_NOTIFICACAO',
+        payload: 'Novo tweet criado com sucesso! Beware the treta!'
+      })
 
       // console.log(tweetCriado);
       this.setState({
@@ -250,6 +254,15 @@ class App extends Component {
             </Tweet>
           )}
         </Modal>
+        {this.props.notificacao && (
+          <div
+            className="notificacaoMsg"
+            onAnimationEnd={() => this.props.dispatch({
+              type: 'ESCONDER_NOTIFICACAO'
+            })}>
+            {this.props.notificacao}
+          </div>
+        )}
       </Fragment>
     );
   }
@@ -257,7 +270,8 @@ class App extends Component {
 
 function mapStateToProps (stateDaStore) {
   return {
-    listaTweets: stateDaStore.tweets
+    listaTweets: stateDaStore.tweets.lista,
+    notificacao: stateDaStore.notificacao
   };
 }
 
